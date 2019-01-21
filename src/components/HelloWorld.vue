@@ -1,147 +1,120 @@
 <template>
-  <v-container>
-    <v-layout
-      text-xs-center
-      wrap
+  <v-app id="keep">
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      clipped
+      class="grey lighten-4"
+      app
     >
-      <v-flex xs12>
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        ></v-img>
-      </v-flex>
-
-      <v-flex mb-4>
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a href="https://community.vuetifyjs.com" target="_blank">Discord Community</a>
-        </p>
-      </v-flex>
-
-      <v-flex
-        mb-5
-        xs12
+      <v-list
+        dense
+        class="grey lighten-4"
       >
-        <h2 class="headline font-weight-bold mb-3">What's next?</h2>
-
-        <v-layout justify-center>
-          <a
-            v-for="(next, i) in whatsNext"
+        <template v-for="(item, i) in items">
+          <v-layout
+            v-if="item.heading"
             :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
+            row
+            align-center
           >
-            {{ next.text }}
-          </a>
-        </v-layout>
-      </v-flex>
-
-      <v-flex
-        xs12
-        mb-5
-      >
-        <h2 class="headline font-weight-bold mb-3">Important Links</h2>
-
-        <v-layout justify-center>
-          <a
-            v-for="(link, i) in importantLinks"
+            <v-flex xs6>
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-flex>
+            <v-flex xs6 class="text-xs-right">
+              <v-btn small flat>edit</v-btn>
+            </v-flex>
+          </v-layout>
+          <v-divider
+            v-else-if="item.divider"
             :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-layout>
-      </v-flex>
-
-      <v-flex
-        xs12
-        mb-5
-      >
-        <h2 class="headline font-weight-bold mb-3">Ecosystem</h2>
-
-        <v-layout justify-center>
-          <a
-            v-for="(eco, i) in ecosystem"
+            dark
+            class="my-3"
+          ></v-divider>
+          <v-list-tile
+            v-else
             :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
+            @click=""
           >
-            {{ eco.text }}
-          </a>
+            <v-list-tile-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="grey--text">
+                {{ item.text }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar color="amber" app absolute clipped-left>
+      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
+      <span class="title ml-3 mr-5">Google&nbsp;<span class="font-weight-light">Keep</span></span>
+      <v-text-field
+        solo-inverted
+        flat
+        hide-details
+        label="Search"
+        prepend-inner-icon="search"
+      ></v-text-field>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid fill-height class="grey lighten-4">
+        <v-layout justify-center align-center>
+          <v-flex shrink>
+            <v-tooltip right>
+              <v-btn
+                slot="activator"
+                :href="source"
+                icon
+                large
+                target="_blank"
+              >
+                <v-icon large>code</v-icon>
+              </v-btn>
+              <span>Source</span>
+            </v-tooltip>
+            <v-tooltip right>
+              <v-btn slot="activator" icon large href="https://codepen.io/johnjleider/pen/jZQNbd" target="_blank">
+                <v-icon large>mdi-codepen</v-icon>
+              </v-btn>
+              <span>Codepen</span>
+            </v-tooltip>
+          </v-flex>
         </v-layout>
-      </v-flex>
-    </v-layout>
-  </v-container>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
   export default {
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader'
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify'
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify'
-        }
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com'
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com'
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuetifyjs.com'
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs'
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify'
-        }
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer'
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/layout/pre-defined'
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions'
-        }
-
+      drawer: null,
+      items: [
+        { icon: 'lightbulb_outline', text: 'Notes' },
+        { icon: 'touch_app', text: 'Reminders' },
+        { divider: true },
+        { heading: 'Labels' },
+        { icon: 'add', text: 'Create new label' },
+        { divider: true },
+        { icon: 'archive', text: 'Archive' },
+        { icon: 'delete', text: 'Trash' },
+        { divider: true },
+        { icon: 'settings', text: 'Settings' },
+        { icon: 'chat_bubble', text: 'Trash' },
+        { icon: 'help', text: 'Help' },
+        { icon: 'phonelink', text: 'App downloads' },
+        { icon: 'keyboard', text: 'Keyboard shortcuts' }
       ]
-    })
+    }),
+    props: {
+      source: String
+    }
   }
 </script>
 
-<style>
-
-</style>
